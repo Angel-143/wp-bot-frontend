@@ -24,7 +24,7 @@ const store = {
 };
 
 // ─── Defaults ───────────────────────────────────────────────────────────────
-const DEFAULT_CONFIG = { sid:"", token:"", phone:"", botName:"StudyBot", apiBase:"http://localhost:5000" };
+const DEFAULT_CONFIG = { sid:"", token:"", phone:"", botName:"StudyBot", apiBase:"https://wp-bot-backend-89il.onrender.com" };
 
 const DEFAULT_RULES = [
   { id:"r1", keywords:["hi","hello","hey","hii","namaste"],          reply:"👋 Welcome! I'm your virtual assistant.\n\nCould you please tell me your *name*? 😊", type:"contains" },
