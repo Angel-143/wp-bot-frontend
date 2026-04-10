@@ -1,0 +1,93 @@
+[
+  {
+    "id": "2094a82d-02a0-4c5d-9556-346fcf6693e0",
+    "name": "Aslok",
+    "phone": "+919801959953",
+    "last_message": "allu",
+    "status": "new",
+    "created_at": "2026-04-10T16:32:23.799537",
+    "updated_at": "2026-04-10T16:53:00.181012",
+    "messages": [
+      {
+        "text": "hello",
+        "time": "2026-04-10T16:32:23.799537",
+        "direction": "inbound"
+      },
+      {
+        "text": "\ud83d\udc4b Welcome! I'm your virtual assistant.\n\nCould you please tell me your *name*? \ud83d\ude0a",
+        "time": "2026-04-10T16:32:23.799537",
+        "direction": "outbound"
+      },
+      {
+        "text": "Aslok",
+        "time": "2026-04-10T16:45:42.174237",
+        "direction": "inbound"
+      },
+      {
+        "text": "Nice to meet you, Aslok! \ud83d\udc4b\n\nHow can I help you today?\n\u2022 Type *fees* for pricing info\n\u2022 Type *hostel* for hostel details\n\u2022 Or just ask your question!",
+        "time": "2026-04-10T16:45:42.174237",
+        "direction": "outbound"
+      },
+      {
+        "text": "fees",
+        "time": "2026-04-10T16:46:03.692036",
+        "direction": "inbound"
+      },
+      {
+        "text": "\ud83d\udcb0 *Fee Structure*\n\n\u2022 Foundation Course: \u20b915,000/year\n\u2022 Standard Course: \u20b925,000/year\n\u2022 Premium Course: \u20b940,000/year\n\nAll plans include study material & doubt sessions.\nReply *hostel* for accommodation info.",
+        "time": "2026-04-10T16:46:03.692036",
+        "direction": "outbound"
+      },
+      {
+        "text": "hostel",
+        "time": "2026-04-10T16:46:16.966914",
+        "direction": "inbound"
+      },
+      {
+        "text": "\ud83c\udfe0 *Hostel Information*\n\n\u2022 Boys Hostel: \u20b98,000/month\n\u2022 Girls Hostel: \u20b98,500/month\n\u2022 Facilities: WiFi, AC rooms, Mess, Gym\n\u2022 Availability: Limited seats\n\nContact us at +91-XXXXXXXXXX to book.",
+        "time": "2026-04-10T16:46:16.966914",
+        "direction": "outbound"
+      },
+      {
+        "text": "allu",
+        "time": "2026-04-10T16:48:14.610362",
+        "direction": "inbound"
+      },
+      {
+        "text": "\ud83d\ude4f Thanks Aslok! We received your message.\n\nOur team will contact you shortly. \u2705\nYou can also ask about *fees* or *hostel*.",
+        "time": "2026-04-10T16:48:14.610362",
+        "direction": "outbound"
+      },
+      {
+        "text": "allu",
+        "time": "2026-04-10T16:49:42.435054",
+        "direction": "inbound"
+      },
+      {
+        "text": "\ud83d\ude4f Thanks Aslok! We received your message.\n\nOur team will contact you shortly. \u2705\nYou can also ask about *fees* or *hostel*.",
+        "time": "2026-04-10T16:49:42.435054",
+        "direction": "outbound"
+      },
+      {
+        "text": "a",
+        "time": "2026-04-10T16:50:37.976177",
+        "direction": "inbound"
+      },
+      {
+        "text": "\ud83d\ude4f Thanks Aslok! We received your message.\n\nOur team will contact you shortly. \u2705\nYou can also ask about *fees* or *hostel*.",
+        "time": "2026-04-10T16:50:37.976177",
+        "direction": "outbound"
+      },
+      {
+        "text": "allu",
+        "time": "2026-04-10T16:53:00.181012",
+        "direction": "inbound"
+      },
+      {
+        "text": "\ud83d\ude4f Thanks Aslok! We received your message.\n\nOur team will contact you shortly. \u2705\nYou can also ask about *fees* or *hostel*.",
+        "time": "2026-04-10T16:53:00.181012",
+        "direction": "outbound"
+      }
+    ]
+  }
+]

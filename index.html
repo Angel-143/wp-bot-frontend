@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WA Admin — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── SIDEBAR ──────────────────────────────────────────────────── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <span class="logo-icon">💬</span>
+    <span class="logo-text">WA<em>Auto</em></span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="nav-item active" data-page="dashboard" href="#">
+      <span class="nav-icon">⬡</span> Dashboard
+    </a>
+    <a class="nav-item" data-page="leads" href="#">
+      <span class="nav-icon">◈</span> Leads
+    </a>
+    <a class="nav-item" data-page="chat" href="#">
+      <span class="nav-icon">◎</span> Chat Viewer
+    </a>
+    <a class="nav-item" data-page="settings" href="#">
+      <span class="nav-icon">⊙</span> Settings
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-status">
+      <span class="status-dot"></span> Bot Active
+    </div>
+  </div>
+</aside>
+
+<!-- ── MAIN ─────────────────────────────────────────────────────── -->
+<div class="main-wrap">
+
+  <!-- Top Navbar -->
+  <header class="topbar">
+    <button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
+    <div class="topbar-title" id="pageTitle">Dashboard</div>
+    <div class="topbar-right">
+      <div class="notification-bell" id="notifBell" title="Notifications">
+        🔔 <span class="notif-badge" id="notifBadge" style="display:none">0</span>
+      </div>
+      <div class="topbar-avatar">AS</div>
+    </div>
+  </header>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ════════════════════════════════════════
+       PAGE: DASHBOARD
+  ════════════════════════════════════════ -->
+  <section class="page active" id="page-dashboard">
+    <div class="page-header">
+      <h1>Overview</h1>
+      <p class="page-sub">Real-time WhatsApp lead insights</p>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="stat-grid">
+      <div class="stat-card stat-total">
+        <div class="stat-label">Total Leads</div>
+        <div class="stat-value" id="statTotal">—</div>
+        <div class="stat-icon">👥</div>
+      </div>
+      <div class="stat-card stat-new">
+        <div class="stat-label">New</div>
+        <div class="stat-value" id="statNew">—</div>
+        <div class="stat-icon">🆕</div>
+      </div>
+      <div class="stat-card stat-contacted">
+        <div class="stat-label">Contacted</div>
+        <div class="stat-value" id="statContacted">—</div>
+        <div class="stat-icon">📞</div>
+      </div>
+      <div class="stat-card stat-closed">
+        <div class="stat-label">Closed</div>
+        <div class="stat-value" id="statClosed">—</div>
+        <div class="stat-icon">✅</div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="section-card">
+      <div class="section-head">
+        <h2>Recent Activity</h2>
+        <button class="btn-ghost" onclick="App.navigate('leads')">View All →</button>
+      </div>
+      <div class="recent-list" id="recentList">
+        <div class="skeleton-list">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Chart -->
+    <div class="section-card">
+      <div class="section-head"><h2>Lead Status Breakdown</h2></div>
+      <div class="chart-wrap" id="chartWrap">
+        <canvas id="statusChart" width="320" height="180"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       PAGE: LEADS
+  ════════════════════════════════════════ -->
+  <section class="page" id="page-leads">
+    <div class="page-header">
+      <h1>Leads</h1>
+      <p class="page-sub">Manage all incoming WhatsApp leads</p>
+    </div>
+
+    <div class="leads-toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input id="searchInput" class="search-input" type="text" placeholder="Search by name, phone…" />
+      </div>
+      <select id="filterStatus" class="filter-select">
+        <option value="">All Statuses</option>
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="closed">Closed</option>
+      </select>
+      <button class="btn-grad" id="addLeadBtn">+ Add Lead</button>
+      <button class="btn-outline" id="exportCsvBtn">⬇ Export CSV</button>
+      <button class="btn-ghost" id="refreshLeadsBtn">↺ Refresh</button>
+    </div>
+
+    <div class="table-card">
+      <table class="leads-table" id="leadsTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Last Message</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="leadsTableBody">
+          <tr><td colspan="7" class="empty-row"><div class="loader"></div> Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       PAGE: CHAT VIEWER
+  ════════════════════════════════════════ -->
+  <section class="page" id="page-chat">
+    <div class="page-header">
+      <h1>Chat Viewer</h1>
+      <p class="page-sub">Browse full conversation history</p>
+    </div>
+    <div class="chat-layout">
+      <div class="chat-sidebar" id="chatLeadList">
+        <div class="chat-sidebar-head">Conversations</div>
+        <div id="chatContactList"><div class="loader"></div></div>
+      </div>
+      <div class="chat-window" id="chatWindow">
+        <div class="chat-placeholder">
+          <div class="chat-placeholder-icon">💬</div>
+          <p>Select a conversation</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       PAGE: SETTINGS
+  ════════════════════════════════════════ -->
+  <section class="page" id="page-settings">
+    <div class="page-header">
+      <h1>Settings</h1>
+      <p class="page-sub">Sab kuch yahan configure karo — sab locally save hoga 💾</p>
+    </div>
+
+    <div class="settings-grid">
+
+      <!-- ── Twilio Config ── -->
+      <div class="settings-card">
+        <h3>🔗 Twilio Configuration</h3>
+        <div class="form-group">
+          <label>Account SID</label>
+          <input type="text" id="cfgSid" class="form-input" placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
+        </div>
+        <div class="form-group">
+          <label>Auth Token</label>
+          <div style="position:relative">
+            <input type="password" id="cfgToken" class="form-input" placeholder="••••••••••••••••••••••••••••••••" style="padding-right:44px" />
+            <button class="eye-btn" id="toggleTokenEye" title="Show/Hide">👁</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>WhatsApp Number</label>
+          <input type="text" id="cfgPhone" class="form-input" placeholder="+14155238886" />
+        </div>
+        <div class="form-group">
+          <label>Bot Name</label>
+          <input type="text" id="cfgBotName" class="form-input" placeholder="e.g. StudyBot" />
+        </div>
+        <button class="btn-grad" onclick="Settings.saveTwilio()">💾 Save Twilio Config</button>
+        <span class="saved-badge" id="twilioSavedBadge">✓ Saved</span>
+      </div>
+
+      <!-- ── Auto-Reply Rules ── -->
+      <div class="settings-card" style="grid-row: span 2">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <h3 style="margin:0">🤖 Auto-Reply Rules</h3>
+          <button class="btn-grad" style="padding:7px 14px;font-size:13px" onclick="Settings.showAddRule()">+ Add Rule</button>
+        </div>
+        <div id="rulesContainer"><!-- rendered by JS --></div>
+        <p class="hint" style="margin-top:12px">Rules are matched left-to-right. <strong>unknown</strong> = fallback catch-all.</p>
+      </div>
+
+      <!-- ── Webhook ── -->
+      <div class="settings-card">
+        <h3>🌐 Webhook & Backend</h3>
+        <div class="form-group">
+          <label>Backend API Base URL</label>
+          <input type="text" id="cfgApiBase" class="form-input" placeholder="http://localhost:5000" />
+        </div>
+        <div class="form-group">
+          <label>Webhook URL (paste in Twilio console)</label>
+          <div class="webhook-url">
+            <code id="webhookUrl">http://localhost:5000/webhook</code>
+            <button class="copy-btn" onclick="App.copyWebhook()">Copy</button>
+          </div>
+        </div>
+        <button class="btn-grad" onclick="Settings.saveWebhook()">💾 Save</button>
+        <span class="saved-badge" id="webhookSavedBadge">✓ Saved</span>
+        <p class="hint" style="margin-top:10px">Expose locally: <code>ngrok http 5000</code></p>
+      </div>
+
+      <!-- ── Notifications & Preferences ── -->
+      <div class="settings-card">
+        <h3>🔔 Preferences</h3>
+        <div class="toggle-row">
+          <span>New lead alert toast</span>
+          <label class="toggle"><input type="checkbox" id="togNewLead" checked /><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span>Sound notification</span>
+          <label class="toggle"><input type="checkbox" id="togSound" /><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span>Auto-refresh (30s)</span>
+          <label class="toggle"><input type="checkbox" id="autoRefreshToggle" checked /><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span>Dark sidebar</span>
+          <label class="toggle"><input type="checkbox" id="togDarkSidebar" checked /><span class="toggle-slider"></span></label>
+        </div>
+        <button class="btn-grad" style="margin-top:16px" onclick="Settings.savePrefs()">💾 Save Preferences</button>
+        <span class="saved-badge" id="prefsSavedBadge">✓ Saved</span>
+      </div>
+
+      <!-- ── Danger Zone ── -->
+      <div class="settings-card danger-card">
+        <h3>⚠️ Danger Zone</h3>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">These actions are irreversible.</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <button class="btn-danger" onclick="Settings.clearLeads()">🗑 Clear All Leads</button>
+          <button class="btn-danger" onclick="Settings.resetAll()">♻️ Reset All Settings</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /main-wrap -->
+
+<!-- ── ADD LEAD MODAL ────────────────────────────────────────────── -->
+<div class="modal-overlay" id="addLeadModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>Add New Lead</h2>
+      <button class="modal-close" id="closeModal">✕</button>
+    </div>
+    <div class="form-group">
+      <label>Name *</label>
+      <input type="text" id="newName" class="form-input" placeholder="e.g. Rahul Verma" />
+    </div>
+    <div class="form-group">
+      <label>Phone *</label>
+      <input type="text" id="newPhone" class="form-input" placeholder="+91XXXXXXXXXX" />
+    </div>
+    <div class="form-group">
+      <label>Message</label>
+      <input type="text" id="newMessage" class="form-input" placeholder="Initial message…" />
+    </div>
+    <div class="form-group">
+      <label>Status</label>
+      <select id="newStatus" class="filter-select" style="width:100%">
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="closed">Closed</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-outline" id="cancelModal">Cancel</button>
+      <button class="btn-grad"    id="saveLeadBtn">Save Lead</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── ADD / EDIT RULE MODAL ─────────────────────────────────── -->
+<div class="modal-overlay" id="addRuleModal">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-head">
+      <h2 id="ruleModalTitle">Add Auto-Reply Rule</h2>
+      <button class="modal-close" onclick="Settings.closeRuleModal()">✕</button>
+    </div>
+    <div class="form-group">
+      <label>Trigger Keywords <span style="color:var(--text-muted);font-weight:400">(comma separated)</span></label>
+      <input type="text" id="ruleKeywords" class="form-input" placeholder="e.g. admission, apply, join" />
+    </div>
+    <div class="form-group">
+      <label>Reply Message</label>
+      <textarea id="ruleReply" class="form-input" rows="4" style="resize:vertical;line-height:1.5" placeholder="e.g. Admission open! 🎓"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Rule Type</label>
+      <select id="ruleType" class="filter-select" style="width:100%">
+        <option value="contains">Contains keyword</option>
+        <option value="exact">Exact match</option>
+        <option value="fallback">Fallback (unknown)</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="Settings.closeRuleModal()">Cancel</button>
+      <button class="btn-grad" onclick="Settings.saveRule()">💾 Save Rule</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
